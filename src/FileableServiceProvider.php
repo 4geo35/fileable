@@ -6,7 +6,9 @@ use GIS\Fileable\Commands\ThumbnailClearCommand;
 use GIS\Fileable\Helpers\ThumbnailActionsManager;
 use GIS\Fileable\Livewire\ImageIndexWire;
 use GIS\Fileable\Models\File;
+use GIS\Fileable\Models\ThumbImage;
 use GIS\Fileable\Observers\FileObserver;
+use GIS\Fileable\Observers\ThumbImageObserver;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -27,6 +29,10 @@ class FileableServiceProvider extends ServiceProvider
         // Наблюдатели.
         $modelClass = config("fileable.customFileModel") ?? File::class;
         $observerClass = config("fileable.customFileObserver") ?? FileObserver::class;
+        $modelClass::observe($observerClass);
+
+        $modelClass = config("fileable.customThumbModel") ?? ThumbImage::class;
+        $observerClass = config("fileable.customThumbObserver") ?? ThumbImageObserver::class;
         $modelClass::observe($observerClass);
     }
 

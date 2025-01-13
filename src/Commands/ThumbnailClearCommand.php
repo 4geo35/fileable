@@ -3,6 +3,7 @@
 namespace GIS\Fileable\Commands;
 
 use GIS\Fileable\Models\File;
+use GIS\Fileable\Models\ThumbImage;
 use Illuminate\Console\Command;
 class ThumbnailClearCommand extends Command
 {
@@ -41,12 +42,11 @@ class ThumbnailClearCommand extends Command
     {
         return $this->getFileModel()::query()
             ->select("id", "path")
-            ->whereNotNull("template")
             ->get();
     }
 
     private function getFileModel(): mixed
     {
-        return config("fileable.customFileModel") ?? File::class;
+        return config("fileable.customThumbModel") ?? ThumbImage::class;
     }
 }

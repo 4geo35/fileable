@@ -7,6 +7,9 @@ return [
     "customThumbController" => null,
 
     "customThumbModel" => null,
+    "customThumbObserver" => null,
+
+    "thumbFolder" => "thumb-image-filters",
 
     'lifetime' => 43200,
     "driver" => \Intervention\Image\Drivers\Imagick\Driver::class,

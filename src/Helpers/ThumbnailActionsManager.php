@@ -3,7 +3,9 @@
 namespace GIS\Fileable\Helpers;
 
 use GIS\Fileable\Interfaces\FileModelInterface;
+use GIS\Fileable\Interfaces\ThumbImageModelInterface;
 use GIS\Fileable\Models\File;
+use GIS\Fileable\Models\ThumbImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -39,13 +41,13 @@ class ThumbnailActionsManager
     /**
      * @param string $template
      * @param int $id
-     * @return null|FileModelInterface
+     * @return null|ThumbImageModelInterface
      */
-    protected function getFilteredImage(string $template, int $id): ?FileModelInterface
+    protected function getFilteredImage(string $template, int $id): ?ThumbImageModelInterface
     {
-        $model = config("fileable.customFileModel") ?? File::class;
-        return $model::query()
-            ->where("parent_id", $id)
+        $modelClass = config("fileable.customThumbModel") ?? ThumbImage::class;
+        return $modelClass::query()
+            ->where("image_id", $id)
             ->where("template", $template)
             ->first();
     }
@@ -66,11 +68,12 @@ class ThumbnailActionsManager
         $name = $file->name;
         $mime = "webp";
         $type = "image";
-        $parent_id = $file->id;
-        $path = "filters/{$template}-{$file->id}-" . Str::random(40);
+        $image_id = $file->id;
+        $thumbFolder = config("fileable.thumbFolder");
+        $path = "{$thumbFolder}/{$template}-{$file->id}-" . Str::random(40);
         Storage::put($path, $content);
-        $modelClass = config("fileable.customFileModel") ?? File::class;
-        $image = $modelClass::create(compact("path", "name", "mime", "type", "template", "parent_id"));
+        $modelClass = config("fileable.customThumbModel") ?? ThumbImage::class;
+        $image = $modelClass::create(compact("path", "name", "mime", "type", "template", "image_id"));
         return $content;
     }
 
