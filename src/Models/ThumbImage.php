@@ -2,41 +2,28 @@
 
 namespace GIS\Fileable\Models;
 
-use GIS\Fileable\Interfaces\FileModelInterface;
+use GIS\Fileable\Interfaces\ThumbImageModelInterface;
 use GIS\TraitsHelpers\Traits\ShouldHumanDate;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
-class File extends Model implements FileModelInterface
+class ThumbImage extends Model implements ThumbImageModelInterface
 {
-    use HasFactory, ShouldHumanDate;
+    use ShouldHumanDate;
 
     protected $fillable = [
         "path",
         "name",
         "mime",
-        "priority",
-        "type",
+        "image_id",
+        "template",
     ];
 
-    /**
-     * @return MorphTo
-     */
-    public function fileable(): MorphTo
+    public function image(): BelongsTo
     {
-        return $this->morphTo();
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function thumbnails(): HasMany
-    {
-        $modelClass = config("fileable.customThumbModel") ?? ThumbImage::class;
-        return $this->hasMany($modelClass, "image_id");
+        $modelClass = config("fileable.customFileModel") ?? File::class;
+        return $this->belongsTo($modelClass, "image_id");
     }
 
     /**

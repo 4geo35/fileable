@@ -5,6 +5,9 @@ return [
     "customFileObserver" => null,
     "customImageIndexComponent" => null,
     "customThumbController" => null,
+
+    "customThumbModel" => null,
+
     'lifetime' => 43200,
     "driver" => \Intervention\Image\Drivers\Imagick\Driver::class,
     "templates" => [

@@ -15,7 +15,8 @@ class ThumbnailActionsManager
     public function findByName(string $fileName): FileModelInterface
     {
         try {
-            return $this->getFileModel()::query()
+            $modelClass = config("fileable.customFileModel") ?? File::class;
+            return $modelClass::query()
                 ->where("path", "like", "%{$fileName}")
                 ->firstOrFail();
         } catch (\Exception $ex) {
@@ -42,7 +43,7 @@ class ThumbnailActionsManager
      */
     protected function getFilteredImage(string $template, int $id): ?FileModelInterface
     {
-        $model = $this->getFileModel();
+        $model = config("fileable.customFileModel") ?? File::class;
         return $model::query()
             ->where("parent_id", $id)
             ->where("template", $template)
@@ -68,7 +69,7 @@ class ThumbnailActionsManager
         $parent_id = $file->id;
         $path = "filters/{$template}-{$file->id}-" . Str::random(40);
         Storage::put($path, $content);
-        $modelClass = $this->getFileModel();
+        $modelClass = config("fileable.customFileModel") ?? File::class;
         $image = $modelClass::create(compact("path", "name", "mime", "type", "template", "parent_id"));
         return $content;
     }
@@ -89,13 +90,5 @@ class ThumbnailActionsManager
                 // template not found
                 abort(404);
         }
-    }
-
-    /**
-     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed|string
-     */
-    private function getFileModel(): mixed
-    {
-        return config("fileable.customFileModel") ?? File::class;
     }
 }
