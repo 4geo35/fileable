@@ -11,7 +11,7 @@ class FileObserver
     public function deleted(FileModelInterface $file): void
     {
         $this->clearThumbs($file);
-        Storage::delete($file->path);
+        if (Storage::has($file->path)) Storage::delete($file->path);
     }
 
     protected function clearThumbs(FileModelInterface $file): void

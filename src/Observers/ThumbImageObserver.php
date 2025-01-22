@@ -9,6 +9,6 @@ class ThumbImageObserver
 {
     public function deleted(ThumbImageModelInterface $model): void
     {
-        Storage::delete($model->path);
+        if (Storage::has($model->path)) Storage::delete($model->path);
     }
 }

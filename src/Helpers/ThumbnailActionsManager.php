@@ -34,8 +34,14 @@ class ThumbnailActionsManager
     public function getFilteredContent(string $template, FileModelInterface $file): string
     {
         $filtered = $this->getFilteredImage($template, $file->id);
-        if (! empty($filtered)) return Storage::get($filtered->path);
-        else return $this->makeImage($template, $file);
+        if (! empty($filtered)) {
+            if (Storage::has($filtered->path)) {
+                return Storage::get($filtered->path);
+            } else {
+                $filtered->delete();
+            }
+        }
+        return $this->makeImage($template, $file);
     }
 
     /**
