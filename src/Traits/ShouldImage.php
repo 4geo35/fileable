@@ -107,6 +107,6 @@ trait ShouldImage
         // Создание файла.
         $image = $this->image_file_class::create(compact("path", "name", "mime", "type"));
         $this->image()->associate($image);
-        $this->save();
+        $this->touch();
     }
 }
