@@ -10,9 +10,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "^11.0",
         "intervention/image": "^3.3",
-        "4geo35/tailwindcss-theme": "^1.0",
+        "4geo35/tailwindcss-theme": "^1.1",
         "4geo35/traits-helpers": "^1.0"
     },
     "autoload": {
