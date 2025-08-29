@@ -40,7 +40,7 @@
             </ul>
         </div>
         <div>
-            <button type="button" class="underline text-sm"
+            <button type="button" class="underline text-sm cursor-pointer"
                     wire:loading.attr="disabled"
                     wire:click="showDelete({{ $item->id }})">
                 {{ __("Delete") }}

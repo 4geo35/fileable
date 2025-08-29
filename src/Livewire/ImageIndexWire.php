@@ -152,6 +152,7 @@ class ImageIndexWire extends Component
             $this->uploadProcess = false;
             $this->reset("images");
             $this->model->touch();
+            $this->dispatch("update-gallery-list");
             return;
         }
         // Получение файла и его имени.

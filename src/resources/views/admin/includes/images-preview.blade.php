@@ -35,7 +35,7 @@
             <button type="button" class="btn btn-primary btn-lg w-full"
                     wire:click="startUploadImages" wire:loading.attr="disabled"
                     @if ($uploadProcess) disabled @endif>
-                Load
+                Загрузить
             </button>
         </div>
     @endif
