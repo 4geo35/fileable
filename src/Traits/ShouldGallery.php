@@ -36,6 +36,11 @@ trait ShouldGallery
         return $this->morphMany($this->gallery_file_class, "fileable");
     }
 
+    public function orderedImages(): MorphMany
+    {
+        return $this->images()->orderBy('priority');
+    }
+
     /**
      * @return MorphOne
      */
