@@ -65,6 +65,17 @@ trait ShouldImage
     }
 
     /**
+     * @param UploadedFile $file
+     * @param string|null $path
+     * @param string $field
+     * @return void
+     */
+    public function storeDirectly(UploadedFile $file, string $path = null, string $field = "title"): void
+    {
+        $this->storeImage($file, $path, $field);
+    }
+
+    /**
      * Удалить изображение.
      *
      * @param bool $deleted

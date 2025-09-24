@@ -3,6 +3,7 @@
 namespace GIS\Fileable\Interfaces;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\UploadedFile;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 interface ShouldImageInterface
@@ -11,5 +12,6 @@ interface ShouldImageInterface
     public function image(): BelongsTo;
     public function uploadImage(string $path = null, string $inputName = "image", string $field = "title"): void;
     public function livewireImage(TemporaryUploadedFile $file = null, string $path = null, string $field = "title"): void;
+    public function storeDirectly(UploadedFile $file, string $path = null, string $field = "title"): void;
     public function clearImage(bool $deleted = false): void;
 }
