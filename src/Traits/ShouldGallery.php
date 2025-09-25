@@ -55,6 +55,11 @@ trait ShouldGallery
         $this->storeGalleryImage($file, $fileName, $path);
     }
 
+    public function storeGalleryImageDirectly(UploadedFile $file, string $fileName = null, string $path = null): void
+    {
+        $this->storeGalleryImage($file, $fileName, $path);
+    }
+
     public function clearImages(): void
     {
         foreach ($this->images as $image) {
