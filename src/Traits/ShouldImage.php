@@ -2,8 +2,8 @@
 
 namespace GIS\Fileable\Traits;
 
+use GIS\Fileable\Interfaces\ShouldImageInterface;
 use GIS\Fileable\Models\File;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -11,9 +11,9 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 trait ShouldImage
 {
-    protected static function bootShouldImage()
+    protected static function bootShouldImage(): void
     {
-        static::deleted(function (Model $model) {
+        static::deleted(function (ShouldImageInterface $model) {
             $model->clearImage(true);
         });
     }

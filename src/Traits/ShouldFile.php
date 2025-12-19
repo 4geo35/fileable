@@ -2,8 +2,8 @@
 
 namespace GIS\Fileable\Traits;
 
+use GIS\Fileable\Interfaces\ShouldFileInterface;
 use GIS\Fileable\Models\File;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -11,9 +11,9 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 trait ShouldFile
 {
-    protected static function bootShouldFile()
+    protected static function bootShouldFile(): void
     {
-        static::deleted(function (Model $model) {
+        static::deleted(function (ShouldFileInterface $model) {
             $model->clearFile(true);
         });
     }
@@ -94,7 +94,7 @@ trait ShouldFile
             $name = $file->getClientOriginalName();
             $name = str_replace(".{$mime}", "", $name);
         }
-        // Тип файла изображение.
+        // Тип файла: любой файл.
         $type = "file";
         // Создание файла.
         $file = $this->file_class::create(compact("path", "name", "mime", "type"));
