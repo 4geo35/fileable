@@ -3,6 +3,7 @@
 namespace GIS\Fileable;
 
 use GIS\Fileable\Commands\ThumbnailClearCommand;
+use GIS\Fileable\Helpers\DownloadActionsManager;
 use GIS\Fileable\Helpers\ThumbnailActionsManager;
 use GIS\Fileable\Livewire\ImageIndexWire;
 use GIS\Fileable\Models\File;
@@ -50,11 +51,14 @@ class FileableServiceProvider extends ServiceProvider
         $this->loadJsonTranslationsFrom(__DIR__ . "/lang");
 
         // Подключение routes
-        $this->loadRoutesFrom(__DIR__ . "/routes/thumb.php");
+        $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
 
         // Facades.
         $this->app->singleton("thumbnail-actions", function () {
             return new ThumbnailActionsManager;
+        });
+        $this->app->singleton("download-actions", function () {
+            return new DownloadActionsManager;
         });
 
         // Commands.

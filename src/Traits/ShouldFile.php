@@ -16,6 +16,18 @@ trait ShouldFile
         static::deleted(function (ShouldFileInterface $model) {
             $model->clearFile(true);
         });
+
+        static::updated(function (ShouldFileInterface $model) {
+            if (
+                $model->wasChanged("title") &&
+                ! empty($model->title) &&
+                ! empty($model->file)
+            ) {
+                $model->file->update([
+                    "title" => $model->title,
+                ]);
+            }
+        });
     }
 
     protected function getFileKey(): string

@@ -14,18 +14,6 @@ use Intervention\Image\Interfaces\EncodedImageInterface;
 
 class ThumbnailActionsManager
 {
-    public function findByName(string $fileName): FileModelInterface
-    {
-        try {
-            $modelClass = config("fileable.customFileModel") ?? File::class;
-            return $modelClass::query()
-                ->where("path", "like", "%{$fileName}")
-                ->firstOrFail();
-        } catch (\Exception $ex) {
-            abort(404);
-        }
-    }
-
     /**
      * @param string $template
      * @param FileModelInterface $file

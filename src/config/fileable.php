@@ -1,18 +1,26 @@
 <?php
 
 return [
+    // Models
     "customFileModel" => null,
     "customFileObserver" => null,
-    "customImageIndexComponent" => null,
-    "customThumbController" => null,
 
     "customThumbModel" => null,
     "customThumbObserver" => null,
 
-    "thumbFolder" => "thumb-image-filters",
+    // Controllers
+    "customDownloadController" => null,
 
+    // Components
+    "customImageIndexComponent" => null,
+
+    // Settings
+    "thumbFolder" => "thumb-image-filters",
     'lifetime' => 43200,
     "driver" => \Intervention\Image\Drivers\Imagick\Driver::class,
+    "imageTypes" => ["image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp", "image/svg+xml", "image/tiff", "image/ico"],
+
+    // Templates
     "templates" => [
         "gallery-preview" => \GIS\Fileable\Templates\GalleyPreview::class,
         "small" => \GIS\Fileable\Templates\Small::class,
