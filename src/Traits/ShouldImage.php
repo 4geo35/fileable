@@ -16,6 +16,18 @@ trait ShouldImage
         static::deleted(function (ShouldImageInterface $model) {
             $model->clearImage(true);
         });
+
+        static::updated(function (ShouldImageInterface $model) {
+            if (
+                $model->wasChanged("title") &&
+                ! empty($model->title) &&
+                ! empty($model->image)
+            ) {
+                $model->image->update([
+                    "name" => $model->title,
+                ]);
+            }
+        });
     }
 
     protected function getImageKey(): string

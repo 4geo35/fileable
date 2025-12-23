@@ -24,7 +24,7 @@ trait ShouldFile
                 ! empty($model->file)
             ) {
                 $model->file->update([
-                    "title" => $model->title,
+                    "name" => $model->title,
                 ]);
             }
         });
