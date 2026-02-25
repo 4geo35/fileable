@@ -15,19 +15,36 @@ use Livewire\Livewire;
 
 class FileableServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . "/database/migrations");
+
+        $this->mergeConfigFrom(__DIR__ . "/config/fileable.php", "fileable");
+
+        $this->loadJsonTranslationsFrom(__DIR__ . "/lang");
+
+        $this->initFacades();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ThumbnailClearCommand::class
+            ]);
+        }
+    }
+
     public function boot(): void
     {
-        // Подключение views.
         $this->loadViewsFrom(__DIR__ . "/resources/views", "fa");
 
-        // Livewire
-        $component = config("fileable.customImageIndexComponent");
-        Livewire::component(
-            "fa-images",
-            $component ?? ImageIndexWire::class
-        );
+        $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
 
-        // Наблюдатели.
+        $this->observeModels();
+
+        $this->addLivewireComponents();
+    }
+
+    protected function observeModels(): void
+    {
         $modelClass = config("fileable.customFileModel") ?? File::class;
         $observerClass = config("fileable.customFileObserver") ?? FileObserver::class;
         $modelClass::observe($observerClass);
@@ -37,35 +54,22 @@ class FileableServiceProvider extends ServiceProvider
         $modelClass::observe($observerClass);
     }
 
-    public function register(): void
+    protected function addLivewireComponents(): void
     {
-        // Миграции.
-        $this->loadMigrationsFrom(__DIR__ . "/database/migrations");
-
-        // Подключение конфигурации.
-        $this->mergeConfigFrom(
-            __DIR__ . "/config/fileable.php", "fileable"
+        $component = config("fileable.customImageIndexComponent");
+        Livewire::component(
+            "fa-images",
+            $component ?? ImageIndexWire::class
         );
+    }
 
-        // Подключение переводов.
-        $this->loadJsonTranslationsFrom(__DIR__ . "/lang");
-
-        // Подключение routes
-        $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
-
-        // Facades.
+    protected function initFacades(): void
+    {
         $this->app->singleton("thumbnail-actions", function () {
             return new ThumbnailActionsManager;
         });
         $this->app->singleton("download-actions", function () {
             return new DownloadActionsManager;
         });
-
-        // Commands.
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ThumbnailClearCommand::class
-            ]);
-        }
     }
 }
