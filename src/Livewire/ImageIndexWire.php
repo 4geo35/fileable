@@ -257,6 +257,7 @@ class ImageIndexWire extends Component
                 continue;
             }
         }
+        $this->model->touch();
         $this->fireUpdateImages();
     }
 
