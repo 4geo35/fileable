@@ -40,6 +40,8 @@ class DownloadController extends Controller
             return DownloadActions::buildResponse($content);
         }
         $title = $file->name;
+        $title = str_replace('/', '-', $title);
+        $title = str_replace('\\', '-', $title);
         if (empty($title)) { $title = Str::random(); }
         $fileName = "$title.{$file->mime}";
         return Storage::download($file->path, $fileName);
